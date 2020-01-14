@@ -32,7 +32,6 @@ app.get('api/notes', (req, res) => {
 
 // console.log('This is after the read call');
 
-//FUCKING GIVING UP!
 
   // fs.readFile(__dirname + '/db/db.json', notes, function(err, data){
   //   if (err) throw err;
@@ -47,10 +46,9 @@ app.get('api/notes', (req, res) => {
   // });
 });
 
-//none of this shit above works. giving the fuck up
 
 
-//route to get specific note
+//route to get specific noteåå
 app.get('/api/notes/:id', (req, res) => {
   res.send(req.query.id);
 });
@@ -60,7 +58,13 @@ app.post("/api/notes", function(req, res) {
   var newnotes = req.body;
   console.log(newnotes);
   notes.push(newnotes);
-  res.json(newnotes);
+  // res.json(newnotes);
+  var data = JSON.stringify(notes);
+  fs.writeFile('db/db.json', data, finished);
+
+  function finished(err){
+    console.log('write complete');
+  }
 });
 
 
