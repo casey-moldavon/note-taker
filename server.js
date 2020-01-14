@@ -12,7 +12,7 @@ var PORT = process.env.PORT || 3000;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// app.use(express.json());
 app.use(express.static('public'));
 
 // notes (DATA)
@@ -21,13 +21,15 @@ var notes = [];
 
 // ================================================== Routes ==================================================
 //gets all notes
-app.get('api/notes', (req, res) => {
-  res.json(data);
+app.get('/api/notes', (req, res) => {
+  let noteData = readNote();
+  console.log(noteData);
+  res.json(noteData);
 
 //   fs.readFile('/db/db.json', (err, data) => {
 //     if (err) throw err;
-//     let fuck = JSON.parse(data);
-//     console.log(fuck);
+//     let data = JSON.parse(data);
+//     console.log(data);
 // });
 
 // console.log('This is after the read call');
@@ -48,18 +50,20 @@ app.get('api/notes', (req, res) => {
 
 
 
-//route to get specific noteåå
+//route to get specific note
 app.get('/api/notes/:id', (req, res) => {
   res.send(req.query.id);
 });
 
 // Create New notes - takes in JSON input
+
+//add id to each note (*append it) <-- this will help when going back to delete the note later on
 app.post("/api/notes", function(req, res) {
   var newnotes = req.body;
   console.log(newnotes);
   notes.push(newnotes);
   // res.json(newnotes);
-  var data = JSON.stringify(notes);
+  var data = JSON.stringify(notes, null, 2);
   fs.writeFile('db/db.json', data, finished);
 
   function finished(err){
@@ -67,6 +71,17 @@ app.post("/api/notes", function(req, res) {
   }
 });
 
+
+//given by Oren
+function readNote(){
+  var data = JSON.parse(fs.readFileSync("db/db.json", function(err, data){
+
+    console.log("inside readNote");
+    console.log(data);
+  }));
+
+  return data
+}
 
 
 //these load the html content from index.html and notes.html

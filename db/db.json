@@ -1,1 +1,10 @@
-[{"title":"note","text":"meh"},{"title":"a","text":"b"}]
+[
+  {
+    "title": "happy note",
+    "text": "this finally works! yay!!!"
+  },
+  {
+    "title": "new note",
+    "text": "new note displaying here"
+  }
+]
