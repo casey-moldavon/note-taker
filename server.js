@@ -48,6 +48,7 @@ app.delete('/api/notes/:id', (req, res) => {
   function finished(err){
     console.log('write complete');
   }
+  res.json(data);
 });
 
 
