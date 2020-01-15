@@ -34,16 +34,31 @@ app.delete('/api/notes/:id', (req, res) => {
   var id = req.params.id;
   console.log(id);
   //delete notes(id);
+  for (var i = 0; i < notes.length; i ++) {
+    console.log(notes[i]['id']);
+    if (notes[i]['id'] == id){
+      console.log(notes[i]);
+      notes.splice(i, 1);
+      console.log(notes);
+    }
+  }
+  var data = JSON.stringify(notes, null, 2);
+  fs.writeFile('db/db.json', data, finished);
+
+  function finished(err){
+    console.log('write complete');
+  }
 });
 
-// Create New notes - takes in JSON input
+
 
 //add id to each note (*append it) <-- this will help when going back to delete the note later on
 app.post("/api/notes", function(req, res) {
   var newnotes = req.body;
-  var id = Math.random();
+  var id = notes.length + 1;
   console.log(id);
   newnotes['id'] = id;
+
   console.log(newnotes);
   notes.push(newnotes);
   res.json(newnotes);
